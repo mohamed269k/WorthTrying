@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IgniteInbox - AI-Powered Cold Email Automation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+    .makingmore {
+        color: white;
+    }
+        :root {
+            --flame-red: #ea5a47;
+            --flame-orange: #f39c12;
+            --dark-navy: #1e293b;
+            --light-gray: #f8fafc;
+            --text-dark: #334155;
+            --text-light: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        /* Navigation */
+        .navbar {
+            padding: 1rem 0;
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-navy) !important;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .flame-logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--flame-red), var(--flame-orange));
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            position: relative;
+        }
+
+        .flame-logo::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            border-radius: 50% 50% 50% 0;
+        }
+
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--flame-red) !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 6rem 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--dark-navy);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--flame-red), var(--flame-orange));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(234, 90, 71, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(234, 90, 71, 0.4);
+            color: white;
+        }
+
+        .price-tag {
+            background: linear-gradient(135deg, var(--flame-red), var(--flame-orange));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-top: 1rem;
+            box-shadow: 0 6px 20px rgba(234, 90, 71, 0.25);
+        }
+
+        /* Feature Cards */
+        .features {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            border: 1px solid #f1f5f9;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--flame-red), var(--flame-orange));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark-navy);
+            margin-bottom: 1rem;
+        }
+
+        .feature-text {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 0;
+            background: #f8fafc;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--flame-red), var(--flame-orange));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--flame-red);
+            transform: translateY(-5px);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--dark-navy);
+            margin: 1rem 0;
+        }
+
+        .price-period {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .check-icon {
+            color: #10b981;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-navy);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-link {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 0;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .feature-card {
+                padding: 2rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content > * {
+            position: relative;
+            bottom: -24px;
+            animation-delay: 0.2s;
+        }
+
+        .hero-content > *:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .hero-content > *:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <div class="flame-logo"></div>
+                IgniteInbox
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i data-lucide="menu"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How it Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Pricing</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="hero-title fade-in">
+                            AI-Powered<br>
+                            <span style="background: linear-gradient(135deg, var(--flame-red), var(--flame-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Cold Email</span><br>
+                            Automation
+                        </h1>
+                        <p class="hero-subtitle fade-in">
+                            Generate personalized cold emails with AI, upload CSV for bulk outreach, and send directly through your Gmail - all in one click. No more copy-pasting, no more manual work.
+                        </p>
+                        <div class="fade-in">
+                       <a href="https://igniteinboxes.netlify.app/loginsignupsys.html" class="cta-button me-3">
+                                <i data-lucide="zap"></i>
+                                Try it free for 3 days
+                            </a>
+                      
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.15); margin-top: 2rem;">
+                            <div class="d-flex align-items-center mb-3">
+                                <div style="width: 12px; height: 12px; background: #ef4444; border-radius: 50%; margin-right: 8px;"></div>
+                                <div style="width: 12px; height: 12px; background: #f59e0b; border-radius: 50%; margin-right: 8px;"></div>
+                                <div style="width: 12px; height: 12px; background: #10b981; border-radius: 50%; margin-right: 16px;"></div>
+                                <small class="text-muted">Gmail Integration</small>
+                            </div>
+                            <div class="text-start">
+                                <div class="mb-2">
+                                    <strong>CSV Upload:</strong> <span class="text-success">✓ 50 prospects loaded</span>
+                                </div>
+                                <div class="mb-2">
+                                    <strong>AI Generation:</strong> <span class="text-success">✓ Personalized emails ready</span>
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Gmail Status:</strong> <span class="text-success">✓ Connected & Ready</span>
+                                </div>
+                                <div style="background: #f0f9ff; padding: 1rem; border-radius: 8px; border-left: 4px solid #0ea5e9;">
+                                    <p class="mb-2"><strong>Hi John,</strong></p>
+                                    <p class="mb-2">I noticed TechCorp recently secured Series B funding - congratulations!</p>
+                                    <p class="mb-2">I help SaaS companies like yours optimize their email deliverability, typically improving open rates by 40%.</p>
+                                    <p class="mb-0">Would you be open to a brief call this week?</p>
+                                    <p class="mt-3 mb-0"><strong>Best,</strong><br>Sarah Johnson<br>Growth Solutions</p>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <button class="btn btn-success btn-sm">
+                                        <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+                                        Send via Gmail
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3" style="color: var(--dark-navy);">
+                    Complete Cold Email Automation Platform
+                </h2>
+                <p class="lead" style="color: var(--text-light);">From AI generation to Gmail delivery - everything you need for scalable outreach</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i data-lucide="mail" style="color: white; width: 24px; height: 24px;"></i>
+                        </div>
+                        <h3 class="feature-title">Gmail Integration - Send with One Click</h3>
+                        <p class="feature-text">No more copy-pasting. Connect your Gmail account and send AI-generated emails directly with a single click - securely and instantly.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i data-lucide="upload" style="color: white; width: 24px; height: 24px;"></i>
+                        </div>
+                        <h3 class="feature-title">CSV Upload for Bulk Personalization</h3>
+                        <p class="feature-text">Upload spreadsheets with prospect details and generate multiple personalized emails in one shot. Perfect for batch outreach campaigns.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i data-lucide="user" style="color: white; width: 24px; height: 24px;"></i>
+                        </div>
+                        <h3 class="feature-title">Professional Sender Profiles</h3>
+                        <p class="feature-text">Set up your professional details once - name, title, company, signature. Every email maintains consistent, professional branding.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i data-lucide="zap" style="color: white; width: 24px; height: 24px;"></i>
+                        </div>
+                        <h3 class="feature-title">AI-Powered Personalization</h3>
+                        <p class="feature-text">Advanced AI creates compelling, personalized emails for each prospect based on their company, role, and industry context.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i data-lucide="settings" style="color: white; width: 24px; height: 24px;"></i>
+                        </div>
+                        <h3 class="feature-title">Multiple Tone Options</h3>
+                        <p class="feature-text">Choose from professional, friendly, bold, casual, or highly persuasive tones to match your outreach strategy and brand voice.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i data-lucide="globe" style="color: white; width: 24px; height: 24px;"></i>
+                        </div>
+                        <h3 class="feature-title">Multi-Language Support</h3>
+                        <p class="feature-text">Reach global prospects with support for multiple languages including English, Arabic, and French for international outreach.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3" style="color: var(--dark-navy);">How IgniteInbox Works</h2>
+                <p class="lead" style="color: var(--text-light);">From CSV upload to Gmail delivery in four simple steps</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h4 class="mb-3" style="color: var(--dark-navy);">Connect Gmail</h4>
+                        <p style="color: var(--text-light);">Securely connect your Gmail account for one-click sending. Your credentials are protected with enterprise-grade security.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h4 class="mb-3" style="color: var(--dark-navy);">Upload CSV</h4>
+                        <p style="color: var(--text-light);">Upload your prospect list with names, companies, roles, and any other relevant details for personalization.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h4 class="mb-3" style="color: var(--dark-navy);">AI Generates</h4>
+                        <p style="color: var(--text-light);">Our AI creates personalized emails for each prospect, incorporating their company details and your chosen tone.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h4 class="mb-3" style="color: var(--dark-navy);">Send via Gmail</h4>
+                        <p style="color: var(--text-light);">Review and send emails directly through your Gmail account with one click. Track engagement and responses.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3" style="color: var(--dark-navy);">Simple, Transparent Pricing</h2>
+                <p class="lead" style="color: var(--text-light);">Start free, then pay only $5/month for unlimited automation</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="pricing-card">
+                        <h3 style="color: var(--dark-navy); font-weight: 700;">IgniteInbox Pro</h3>
+                        <div class="price">$5<span class="price-period">/month</span></div>
+                        <p style="color: var(--text-light); margin-bottom: 2rem;">Complete cold email automation platform</p>
+                        
+                        <ul class="feature-list">
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                Gmail Integration & One-Click Sending
+                            </li>
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                CSV Upload for Bulk Outreach
+                            </li>
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                Professional Sender Profiles
+                            </li>
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                Unlimited AI email generation
+                            </li>
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                5 different tone options
+                            </li>
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                Multi-language support
+                            </li>
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                24/7 customer support
+                            </li>
+                        </ul>
+                        
+                        <a href="https://www.paypal.com/ncp/payment/94F75ZG5PQDGU" class="cta-button w-100 justify-content-center">
+                            <i data-lucide="rocket"></i>
+                           Start Your Free Trial
+                        </a>
+                        <p class="mt-3" style="color: var(--text-light); font-size: 0.9rem;">
+                            3-day free trial • No credit card required • Cancel anytime
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="flame-logo me-2"></div>
+                        <h5 class="mb-0">IgniteInbox</h5>
+                    </div>
+                  
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="mb-3">Product</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#features" class="footer-link">Features</a></li>
+                        <li class="mb-2"><a href="#pricing" class="footer-link">Pricing</a></li>
+                        
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="mb-3">Company</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="footer-link">About</a></li>
+                    </ul>
+                  
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="mb-3">Support</h6>
+                    <ul class="list-unstyled">
+                  <p>Email: igniteinboxes@gmail.com</p>
+                    <p>Phone: +212679954290</p>
+                    </ul>
+                </div>
+            </div>
+            <hr style="border-color: #475569; margin: 2rem 0 1rem;">
+            <div class="text-center text-muted">
+                <p class="makingmore">&copy; 2025 IgniteInbox. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+    
+    
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            } else {
+                navbar.style.background = 'white';
+            }
+        });
+    </script>
+</body>
+</html>
