@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IgniteInbox - AI-Powered Cold Email Generator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+    .makingmore {
+        color: white;
+    }
+        :root {
+            --flame-red: #ea5a47;
+            --flame-orange: #f39c12;
+            --dark-navy: #1e293b;
+            --light-gray: #f8fafc;
+            --text-dark: #334155;
+            --text-light: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        /* Navigation */
+        .navbar {
+            padding: 1rem 0;
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-navy) !important;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .flame-logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--flame-red), var(--flame-orange));
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            position: relative;
+        }
+
+        .flame-logo::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            border-radius: 50% 50% 50% 0;
+        }
+
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--flame-red) !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 6rem 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--dark-navy);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--flame-red), var(--flame-orange));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(234, 90, 71, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(234, 90, 71, 0.4);
+            color: white;
+        }
+
+        .price-tag {
+            background: linear-gradient(135deg, var(--flame-red), var(--flame-orange));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-top: 1rem;
+            box-shadow: 0 6px 20px rgba(234, 90, 71, 0.25);
+        }
+
+        /* Feature Cards */
+        .features {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            border: 1px solid #f1f5f9;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--flame-red), var(--flame-orange));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark-navy);
+            margin-bottom: 1rem;
+        }
+
+        .feature-text {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 0;
+            background: #f8fafc;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--flame-red), var(--flame-orange));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--flame-red);
+            transform: translateY(-5px);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--dark-navy);
+            margin: 1rem 0;
+        }
+
+        .price-period {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .check-icon {
+            color: #10b981;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-navy);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-link {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 0;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .feature-card {
+                padding: 2rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content > * {
+            position: relative;
+            bottom: -24px;
+            animation-delay: 0.2s;
+        }
+
+        .hero-content > *:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .hero-content > *:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <div class="flame-logo"></div>
+                IgniteInbox
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i data-lucide="menu"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How it Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Pricing</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="https://privacyigniteinboxes.netlify.app">Privacy policy</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="hero-title fade-in">
+                            AI-Powered<br>
+                            <span style="background: linear-gradient(135deg, var(--flame-red), var(--flame-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Cold Email</span><br>
+                            Generator
+                        </h1>
+                        <p class="hero-subtitle fade-in">
+                            Generate high-converting cold emails in seconds. Fill in details, pick a tone, and watch our AI create personalized outreach messages that get responses.
+                        </p>
+                        <div class="fade-in">
+                            <a href="https://igniteinboxes.netlify.app/loginsignupsys.html" class="cta-button me-3">
+                                <i data-lucide="zap"></i>
+                                Try it free for 3 days
+                            </a>
+                            <div class="price-tag">
+                                Just $5/month
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.15); margin-top: 2rem;">
+                            <div class="d-flex align-items-center mb-3">
+                                <div style="width: 12px; height: 12px; background: #ef4444; border-radius: 50%; margin-right: 8px;"></div>
+                                <div style="width: 12px; height: 12px; background: #f59e0b; border-radius: 50%; margin-right: 8px;"></div>
+                                <div style="width: 12px; height: 12px; background: #10b981; border-radius: 50%; margin-right: 16px;"></div>
+                                <small class="text-muted">Email Generator</small>
+                            </div>
+                            <div class="text-start">
+                                <div class="mb-2">
+                                    <strong>Subject:</strong> <span class="text-muted">Quick question about [Company Growth]</span>
+                                </div>
+                                <div class="mb-3">
+                                    <strong>To:</strong> <span class="text-muted">john@company.com</span>
+                                </div>
+                                <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--flame-red);">
+                                    <p class="mb-2">Hi John,</p>
+                                    <p class="mb-2">I noticed your company recently expanded into European markets - congratulations on the growth!</p>
+                                    <p class="mb-2">I help SaaS companies like yours streamline their customer onboarding process, typically reducing churn by 30% in the first quarter.</p>
+                                    <p class="mb-0">Would you be open to a brief 15-minute conversation this week?</p>
+                                    <p class="mt-3 mb-0">Best regards,<br>Sarah</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3" style="color: var(--dark-navy);">
+                    Generate High-Converting Cold Emails in Seconds
+                </h2>
+                <p class="lead" style="color: var(--text-light);">Everything you need to create personalized outreach that gets responses</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i data-lucide="zap" style="color: white; width: 24px; height: 24px;"></i>
+                        </div>
+                        <h3 class="feature-title">Generate high-converting cold emails in seconds</h3>
+                        <p class="feature-text">Our AI creates personalized, compelling emails instantly. No more writer's block or hours spent crafting the perfect message.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i data-lucide="settings" style="color: white; width: 24px; height: 24px;"></i>
+                        </div>
+                        <h3 class="feature-title">Fill in details & pick a tone</h3>
+                        <p class="feature-text">Simply input recipient details and choose from multiple tone options - professional, friendly, bold, or casual to match your style.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i data-lucide="calendar" style="color: white; width: 24px; height: 24px;"></i>
+                        </div>
+                        <h3 class="feature-title">Try it free for 3 days</h3>
+                        <p class="feature-text">Test drive our AI email generator risk-free. Generate unlimited emails for 3 days and see the difference quality makes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3" style="color: var(--dark-navy);">How IgniteInbox Works</h2>
+                <p class="lead" style="color: var(--text-light);">From zero to personalized email in three simple steps</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h4 class="mb-3" style="color: var(--dark-navy);">Enter Details</h4>
+                        <p style="color: var(--text-light);">Fill in your information and the recipient's company details. The more context you provide, the better the AI performs.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h4 class="mb-3" style="color: var(--dark-navy);">Pick Your Tone</h4>
+                        <p style="color: var(--text-light);">Choose from professional, friendly, bold, casual, or highly persuasive tones to match your outreach strategy.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h4 class="mb-3" style="color: var(--dark-navy);">Generate & Send</h4>
+                        <p style="color: var(--text-light);">Click generate and get your perfectly crafted email instantly. Copy, customize if needed, and send to your prospects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3" style="color: var(--dark-navy);">Simple, Transparent Pricing</h2>
+                <p class="lead" style="color: var(--text-light);">Start free, then pay only $5/month for unlimited access</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="pricing-card">
+                        <h3 style="color: var(--dark-navy); font-weight: 700;">IgniteInbox Pro</h3>
+                        <div class="price">$5<span class="price-period">/month</span></div>
+                        <p style="color: var(--text-light); margin-bottom: 2rem;">Everything you need to generate high-converting cold emails</p>
+                        
+                        <ul class="feature-list">
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                Unlimited email generation
+                            </li>
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                5 different tone options
+                            </li>
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                AI-powered personalization
+                            </li>
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                Multi-language support
+                            </li>
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                One-click copy to clipboard
+                            </li>
+                            <li>
+                                <i data-lucide="check" class="check-icon"></i>
+                                24/7 customer support
+                            </li>
+                        </ul>
+                        
+                        <a href="https://www.paypal.com/ncp/payment/94F75ZG5PQDGU" class="cta-button w-100 justify-content-center">
+                            <i data-lucide="rocket"></i>
+                           Start Your  Free Trial
+                        </a>
+                        <p class="mt-3" style="color: var(--text-light); font-size: 0.9rem;">
+                            3-day free trial • No credit card required • Cancel anytime
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="flame-logo me-2"></div>
+                        <h5 class="mb-0">IgniteInbox</h5>
+                    </div>
+                  
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="mb-3">Product</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#features" class="footer-link">Features</a></li>
+                        <li class="mb-2"><a href="#pricing" class="footer-link">Pricing</a></li>
+                        
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="mb-3">Company</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="footer-link">About</a></li>
+                      
+                        <li class="mb-2"><a href="https://privacyigniteinboxes.netlify.app" class="footer-link">Privacy policy</a></li> 
+                    </ul>
+                  
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="mb-3">Support</h6>
+                    <ul class="list-unstyled">
+                  <p>Email: igniteinboxes@gmail.com</p>
+                    <p>Phone: +212679954290</p>
+                    </ul>
+                </div>
+            </div>
+            <hr style="border-color: #475569; margin: 2rem 0 1rem;">
+            <div class="text-center text-muted">
+                <p class="makingmore">&copy; 2025 IgniteInbox. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+    
+    
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            } else {
+                navbar.style.background = 'white';
+            }
+        });
+    </script>
+</body>
+</html>
